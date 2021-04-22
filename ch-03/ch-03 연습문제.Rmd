@@ -1,0 +1,43 @@
+---
+title: "chapter 3 연습문제"
+author: "김기영"
+date: '2021 4 21 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 단축키
+- Chunk 생성: Ctrl + Alt + I
+- Knit Document: Ctrl + Shift + K
+
+#3-1 연습문제
+x=c(1:5)인 벡터가 있다. 이 벡터에 c(6:10)인 벡터를 추가하라
+```{r}
+x<- c(1:5)
+x<- c(x, c(6:10))
+```
+#3-2 연습문제
+x=c(1:10)인 벡터에서 짝수 번째 요소만 남긴 x를 만들어라
+```{r}
+x<- c(1:10)
+x<- x[x%%2==0]
+```
+
+## 단원문제
+1. x는 1부터 100까지의 수 중 3의 배수만 포함하고 y는 1부터 100까지의 수 중 4의 배수만 포함하는 벡터로 만들어라
+```{r}
+x <- seq(from=99, to=1, by=-3)
+y <- seq(from=4, to=100, by=4)
+
+```
+2. 1문제에서 x와 y의 교집합을 구하고 해당 교집합에 포함된 수를 모두 더한 값을 구하라
+```{r}
+intersect(x,y)
+z <-intersect(x,y)
+sum(z)
+
+```
+
