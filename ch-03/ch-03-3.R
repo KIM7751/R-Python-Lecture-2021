@@ -58,3 +58,4 @@ a <- array(1:12, c(3,4))
 sample(a) 
 sample(a, 4)
 sample(a, 4, prob = c(1:12))
+
