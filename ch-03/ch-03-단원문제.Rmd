@@ -1,0 +1,54 @@
+---
+title: "3단원 문제"
+author: "김기영"
+date: '2021 4 22 '
+output: html_document
+---
+
+##단원문제
+
+1. x는 1부터 100까지의 수 중 3의 배수만 포함하고 y는 1부터 100까지의 수 중 4의 배수만 포함하는 벡터로 만들어라
+```{r}
+x <- seq(from=99, to=1, by=-3)
+y <- seq(from=4, to=100, by=4)
+```
+
+2. 1문제에서 x와 y의 교집합을 구하고 해당 교집합에 포함된 수를 모두 더한 값을 구하라
+```{r}
+intersect(x,y)
+z <-intersect(x,y)
+sum(z)
+```
+
+03. airquality 데이터는 어느 도시의 공기 질을 나타낸 데이터 인가?
+```{r}
+?airquality
+```
+New York State Department of Conservation
+
+04. airquality 데이터의 온도 단위는 무엇 인가?
+```{r}
+?airquality
+```
+numeric	Temperature (degrees F)
+
+05. airquality 데이터에서 바람이 가장 세게 분 날짜는 언제인가?
+```{r}
+airquality[airquality$Wind == max(airquality$Wind), c("Month","Day")]
+```
+
+
+06. airquality 데이터에서는 총 몇 개의 NA가 포함되어 있는가?
+```{r}
+sum(is.na(airquality))
+```
+07. quakes 데이터는 어느 섬의 지진을 관측한 데이터인가?
+```{r}
+?quakes
+```
+One is a major plate junction; the other is the Tonga trench off New Zealand.
+
+08. quakes에 기록된 가장 큰 지진의 규모는 얼마인가
+```{r}
+max(quakes$mag) 
+```
