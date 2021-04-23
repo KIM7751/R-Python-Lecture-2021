@@ -111,3 +111,39 @@ for (element in vec) {
 for (element in mat) {
     print(element)
 }
+
+# 약수
+
+n <- 24
+for (num in 1:n) {
+    if (n %% num == 0){
+        print(num)
+    }
+}
+
+# 약수의 합
+
+sum <- 0
+for (num in 1:n) {
+    if (n %% num ==0) {
+        sum <- sum + num
+        }
+}
+
+print(sum)
+
+#완전수
+# 2 ~ 10000 사이의 완전수를 찾아라
+
+for (n in 2:10000) {
+    sum <- 0
+    for (num in 1:(n-1)) {
+        if (n %% num ==0) {
+            sum <- sum + num
+        }
+    }
+    if (sum == n) {
+        print(n)
+    }
+        
+}
