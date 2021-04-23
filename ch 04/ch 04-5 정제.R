@@ -56,16 +56,14 @@ patients_outrm <- patients[patients$gender=='m'|patients$gender=='f',]
 patients_outrm
 
 # 성별의 혈액형의 이상치 제거
-patients_outrm <- patients[patients$blood.type == 'a' |
-                               patients$blood.type == 'b'|
-                               patients$blood.type == 'o'|
-                               patients$blood.type == 'ab',]
+patients_outrm <- patients[(patients$gender=='M'|patients$gender=='F') &
+                               (patients$blood.type=='A'|patients$blood.type=='B'|
+                                    patients$blood.type=='O'|patients$blood.type=='AB'),]
 patients_outrm
 
-patients_outrm <- patients[patients$gender %in% c('m', 'f') & 
-                               patients&blood.type %in% c('a','o','b','ab'),] #오류
+patients_outrm <- patients[patients$gender %in% c('M','F') &
+                               patients$blood.type %in% c('A','B','O','AB'),]
 patients_outrm
-
 # 이상치를 NA로 대체
 patients2 <- data.frame(name = c('환자1' , '환자2', '환자3', '환자4', '환자5'),
                         age = c(22, 25, 27, 40, 50),
@@ -84,10 +82,12 @@ boxplot(airquality[,1])$stats
 boxplot(airquality$Ozone)$stats
 
 air <- airquality
-air$Ozone <- ifelse(air$Ozone<1 | air$Ozone>122,
+air$Ozone <- ifelse(air$Ozone<boxplot(airquality$Ozone)$stats[1] |
+                        air$Ozone>boxplot(airquality$Ozone)$stats[5],
                     NA, air$Ozone)
 
 sum(is.na(air$Ozone))
 sum(is.na(airquality$Ozone))
 mean(air$Ozone, na.rm = T)
 mean(airquality$Ozone, na.rm =  T)
+

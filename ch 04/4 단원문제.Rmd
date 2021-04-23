@@ -1,0 +1,59 @@
+---
+title: "4 단원 문제"
+author: "김기영"
+date: '2021 4 23 '
+output: html_document
+---
+
+### 단축키
+- Chunk 생성: Ctrl + Alt + I
+- Knit Document: Ctrl + Shift + K
+
+1. 1부터 100까지의 수 중에서 3의 배수이면서 4의 배수는 아닌 수의 합을 구하라
+```{r}
+product <- 0
+for (i in 1:100) {
+    if(i %% 3 == 0 & i %% 4 != 0)
+    product <- product + i
+} 
+print(product)
+```
+
+2. x와 n을 입력하면 1부터 n까지의 수 중에서 x의 배수 합을 구해주는 사용자 정의 함수를 만들어라
+```{r}
+result <- function(x,n) {
+    sum <- 0
+    for (i in 1:n) {
+        if (i %% x ==0)
+            sum = sum + i
+        }
+print(sum)
+}
+result(2,5)
+```
+
+3. install.packages("hflights")와 library(hflights) 명령어를 이용하여 hflight 데이터를 활용할 수 있게 하자. hflights 데이터에는 총 몇개의 NA가 있나?
+```{r}
+library(hflights)
+sum(is.na(hflights))
+```
+
+4.hflights 데이터에서 비행시간이 가장 긴 데이터는 몇 시간 몇 분인가
+```{r}
+print(paste0(max(na.omit(hflights$AirTime))%/% 60 , "시간" ,max(na.omit(hflights$AirTime))%% 60, "분"))  
+```
+5. hflights 데이터에서 비행거리가 가장 긴 데이터는 몇 마일 인가?
+```{r}
+options(digits = 3)
+hflights$Distance <- replace(hflights$Distance,
+                            is.na(hflights$Distance),
+                            mean(hflights$Distance, na.rm = T))
+max(hflights$Distance)
+```
+6. hflights 데이터에서 비행편이 취소된 건수는 몇 건인가?
+```{r}
+sum(hflights$Cancelled)
+```
+
+
+
