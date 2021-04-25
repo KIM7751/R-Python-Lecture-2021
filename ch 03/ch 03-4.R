@@ -1,3 +1,23 @@
+# 사물의 범주를 구분하는 목적으로 사용하는 데이터 범주형 데이터
+review <- c('good', 'good', 'indifferent', 'bad','good')
+review # 6개의 문자 원소를 가지는 벡터임
+review.factor <- factor(review) 
+review.factor # 벡터의 '' 마크가 사라짐 / levels라는 말이 보임
+              # levels에 bad, good, indifferent가 생김
+              # 팩터는 level을 원소로 하는 벡터로 정의 가능
+              # 3개의 범주를 갖는 팩터다 라고 얘기 가능
+str(review.factor) # 알파벳 순으로 bad 가 1 / good 이 2 / indifferent 가 3 으로 표현됨
+as.numeric(review.factor) # 숫자데이터로 바꿔주면 위 순서대로 출력
+review.factor <- factor(review,
+                        levels = c('indifferent', 'bad','good', 'not good'))
+                 #levels = 를 이용해 factor 안의 level을 확장 시켜줄 수 있다.
+                 # 또 그 전에 factor시에는 알파벳 순서로 나열 돼 있지만 
+                 # levles 를 적용하면 내가 원하는 순서대로 나열 가능하다
+levels(review.factor)
+levels(review.factor) <- c("I","B",'G','N') # levels 바꾸기
+levels(review.factor) 
+nlevels(review.factor) # levels 개수
+
 # 데이터 프레임
 name  <- c("철수", '춘향', '길동')
 age <- c("22", '20', '25')
