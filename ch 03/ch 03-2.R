@@ -15,7 +15,10 @@ rep(c(1:3), each=2)  # 1 1 2 2 3 3 / 1 ~ 3까지의 범위인데 각각의 원�
 rep(c(1:3), times=c(1,2,3)) # 1은 1번 2는 2번 3은 3번 반복이 된다.
 
 # 숫자형 벡터와 문자형 벡터를 묶으면
-num <- 
+num <- c(1:3)
+cha <- c("x","z",'y')
+c(num, cha) # 숫자도 문자형으로 바뀌면서 문자형 벡터로 바뀜
+
 
 # 인덱싱
 x <- seq(2,10,by=2) # 2 ~ 10 까지의 범위에서 2 간격인 수열 
@@ -36,17 +39,19 @@ w <- c(5:7)
 
 x + 2 # 3 4 5 6  
 x + y # 6 8 10 12
-x + z # 4 6 6 8 
+x + z # 4 6 6 8 길이가 짧은 z가 남은 엘리먼트에 한 번씩 더 추가됨. 
 x + w # 6 8 10 9
 
 length(w) # 해당 변수의 묶음 또는 수열의 개수 표현
 
-x > 2
-all(x>2) # AND
-any(x>2) # OR
+x > 2 # x <- c(1:4)
+all(x>2) # AND 조건에 맞지 않는 1이 포함되어 있어 F
+any(x>2) # OR 조건에 맞는 2,3,4 중 하나만 있어도 T
 
 # fancy indexing
-y[x>2]
+str(x)
+str(y)
+y[x>2] 
 
 x <- 1:10
 head(x)
@@ -60,9 +65,9 @@ z <- c(3,1,2)
 
 union(x, y)    #합집합(중복 없이)
 intersect(x,y) #교집합
-setdiff(x, y)  #차집합
-setdiff(y, x)
-setequal(x, y) # F
-setequal(x, z) # T
+setdiff(x, y)  #차집합 x - y
+setdiff(y, x)  #       y - x
+setequal(x, y) # F 두 집합이 같아? 
+setequal(x, z) # T 두 집합에 원소 순서 상관없이 똑같으면 T
 
 
