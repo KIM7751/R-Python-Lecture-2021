@@ -1,10 +1,11 @@
 # 파일 읽기
 getwd()
 students <- read.table('data/students1.txt', header = T) #일반 텍스트 파일 읽음
-students
-str(students)
+students                                      # 첫 행을 헤더로 쓰겠다라는 뜻 
+str(students)                                 # 헤더가 없는 데이터 파일의 경우 F 사용
+                                              # table은 공백, 클론, 탭 통해 데이터를 구분
 
-#read.csv 첫 행을 헤더로 읽는 것이 기본 값임
+#read.csv 첫 행을 헤더로 읽는 것이 기본 값임 / ,(쉼표)로 데이터 구분
 students <- read.csv('data/students.csv')
 students
 
