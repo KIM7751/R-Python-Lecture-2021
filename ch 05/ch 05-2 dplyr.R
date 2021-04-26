@@ -48,6 +48,22 @@ asia_pop <- gapminder %>%
         arrange(desc(life_avg)) %>%
         head(5)
     
+    gapminder %>%
+        filter(continent=='Asia') %>%
+        group_by(country) %>%
+        summarise(life_avg=mean(lifeExp)) %>%
+        arrange(desc(life_avg)) %>%
+        head(5)
+ 
+# 2007년 인구수 5000만 이상인 국가중 기대수명이 가장 큰 TOP 5 국가   
+    gapminder %>%
+        filter(year==2007 & pop>=5e7) %>%
+        group_by(country) %>%
+        summarise(life_avg=mean(lifeExp)) %>%
+        arrange(desc(life_avg)) %>%
+        head(5)
+        
+    
 
 #mpg(mile - per - gallon)
 
@@ -83,3 +99,8 @@ mpg <- mpg %>%
                          ifelse(df$total>=20, 'B','C')))
 
 table(mpg$grade2)
+
+#  벡터 내 특정 값 포함 여부 확인 연산자 %in%
+    
+    
+    
