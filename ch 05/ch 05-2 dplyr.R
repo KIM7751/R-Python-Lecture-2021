@@ -34,7 +34,7 @@ gapminder %>% # 체인을 이용한 요약
     arrange(desc(lifeExp)) %>% 
     head(5)
 
-# 4. group_by 와 summarize(테이블, 함수)
+# 4. group_by 와 summarize(테이블, 함수) mutate를 이용해 새로 만든 변수도 이용 가능하다
 summarize(africa.pop, pop_avg=mean(pop)) # 2007년 아프리카 국가별 평균 인구수
 summarise(group_by(gapminder, continent), pop_avg=mean(pop)) # 대륙별 평균 인구수
 summarise(group_by(gapminder, country), life_avg=mean(lifeExp))
@@ -90,7 +90,7 @@ df$grade <- ifelse(df$total>=30, 'A',
                    ifelse(df$total>=20, 'B','C'))
 table(df$grade)
 
-# mutat
+# mutat 잘 모르겠음 찾아보기
 mpg %>%
     mutate(grade2=ifelse(df$total>=30, 'A',
                          ifelse(df$total>=20, 'B','C')))
@@ -100,7 +100,5 @@ mpg <- mpg %>%
 
 table(mpg$grade2)
 
-#  벡터 내 특정 값 포함 여부 확인 연산자 %in%
-    
-    
+#  벡터 내 특정 값 포함 여부 확인 연산자 %in% 찾아보기
     

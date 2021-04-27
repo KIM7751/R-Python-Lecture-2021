@@ -155,7 +155,8 @@ mpg %>%
 mpg %>%
     filter(class == 'compact') %>% 
     group_by(manufacturer) %>%
-    summarise(counter = n()) %>%
-    arrange(desc(counter))
+    summarise(counter = n()) %>% # n() - 행의 개수를 세어줌
+    arrange(desc(counter))       
 ```
+
 
