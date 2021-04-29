@@ -50,3 +50,20 @@ for (i in 1:4) {
 # 분산 분석(아노바)
 
 anova(m.1, m.2, m.3, m.4)
+
+# Women data
+
+women
+plot(women)
+m <-lm(weight ~ height, data = women)
+abline(m, col= 'red', lwd =2)
+summary(m)
+
+# 2차식으로 모델링 
+
+m2 <- lm(weight ~ poly(height, 2), data = women)
+x <-seq(58 , 72, length.out = 300)
+y <-predict(m2, data.frame(height=x))
+lines(x,y, col='purple', lwd=2)
+abline(m, col='red', lwd=2)
+summary(m2) # 2차식이 1차식 보다 낫다.
