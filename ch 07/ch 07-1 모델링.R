@@ -1,18 +1,60 @@
-# 단순 선형 회귀의 적용
-# cars 데이터
+# 현실 세계의 모델링
+X = c(3, 6, 9, 12.)
+Y = c(3, 4, 5.5, 6.5)
+plot(X, Y)
 
-str(cars)
+# model 1: y=0.5x+1.0
+Y1 = 0.5*X + 1.0
+Y1
+# 평균 제곱 오차: Mean Squared Error
+(Y - Y1)**2
+sum((Y - Y1)**2)
+mse <- sum((Y - Y1)**2) / length(Y)
+mse
 
-plot(cars)
+# model 2: y=5/12x + 7/4
+Y2 = 5 * X / 12 + 7/4
+Y2
+mse2 <- sum((Y - Y2)**2) / length(Y)
+mse2
 
-cars_model <- lm(dist ~ speed, data=cars)
-coef(cars_model)
+# R의 단순 선형회귀 모델 lm (오차가 제일 적은 최적의 모델을 찾아줌)
+model <- lm(Y ~ X)
+model  # Y = 0.4X + 1.75
 
-# 회귀식: dist = 3.9234 * speed - 17.5791 
+plot(X, Y)
+abline(model, col='red') #abline() 플롯으로 그린 그래프 위 함수에 맞는 선을 그려줌
+fitted(model)            #fitted() 는 Y = 0.4X + 1.75식의 훈련집합 샘플에 예측을 적용
+mse_model <- sum((Y - fitted(model))**2) / length(Y) # SUM((실제값 - 예측값)**2) / length(실제값)
+mse_model
 
-abline(cars_model, col = 'red')
+# 잔차 - Residuals / 실제값 - 예측값 = 오차
+residuals(model)  # Y - fitted(model)
 
-summary(cars_model) # 별이 많이 붙을 수록 좋은 것(관련성이 높다)  ctrl + shift + c 블록 단추키
-par(mfrow=c(2,2))
-plot(cars_model)
-par(mfrow=c(1,1))
+# 잔차 제곱합  
+deviance(model) # sum((Y - fitted(model))**2) 
+
+# 평균 제곱오차(MSE)
+deviance(model) / length(Y) #sum((Y - fitted(model))**2) / length(Y)
+
+summary(model)
+
+# 예측
+newX <- data.frame(X=c(1.2, 2.0, 20.65))
+newX
+predict(model, newdata=newX)
+
+# 연습문제 1
+x <- c(10, 12, 9.5, 22.2, 8)
+y <- c(360.2, 420, 359.5, 679, 315.3)
+m <- lm(y ~ x)
+summary(m)
+plot(x, y, pch=1)
+abline(m, col='red')
+
+newx <- data.frame(x=c(10.5,25.0,15.0))
+newy <- predict(m, newdata=newx)
+newy
+
+plot(newx$x, newy, pch=2)
+abline(m, col='red')
