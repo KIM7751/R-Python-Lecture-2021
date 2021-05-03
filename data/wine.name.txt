@@ -1,13 +1,13 @@
 1) Alcohol
-2) Malic acid
+2) Malic_acid
 3) Ash
-4) Alcalinity of ash
+4) Alcalinity_of_ash
 5) Magnesium
-6) Total phenols
+6) Total_phenols
 7) Flavanoids
-8) Nonflavanoid phenols
+8) Nonflavanoid_phenols
 9) Proanthocyanins
-10)Color intensity
+10)Color_intensity
 11)Hue
-12)OD280/OD315 of diluted wines
+12)OD280_OD315_of_diluted_wines
 13)Proline

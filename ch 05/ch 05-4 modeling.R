@@ -24,6 +24,7 @@ names(wine)[2:14] <- substr(columns, 4, nchar(columns))
 names(wine)[1] <- 'Y'
 names(wine)
 
+
 #데이터셋 분할
 train_set = sample_frac(wine, 0.75)
 str(train_set)
@@ -32,3 +33,5 @@ table(train_set$Y)
 
 test_set = setdiff(wine, train_set)
 table(test_set$Y)
+
+
