@@ -75,8 +75,9 @@ confusionMatrix(k,ucla_test$admit)
 ```
 2-1 wine 결정트리
 ```{r}
-wine <- read.table('data/wine.data.txt', sep= ",")
-columns <- readLines('data/wine.name.txt')
+library(dplyr)
+wine <- read.csv('https://raw.githubusercontent.com/KIM7751/R-Lecture-2021/main/data/wine.data.txt', sep= ",")
+columns <- read.csv('https://raw.githubusercontent.com/KIM7751/R-Lecture-2021/main/data/wine.name.txt')
 names(wine)
 names(wine)[2:14] <- columns
 names(wine)
