@@ -187,4 +187,3 @@ kw <- knn(wine_train[,1:14],wine_test[,1:14],
 kw
 table(kw)
 confusionMatrix(kw, wine_test$Y) #Accuracy : 0.9367
-getwd()
