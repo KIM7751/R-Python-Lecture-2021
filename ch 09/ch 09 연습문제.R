@@ -1,6 +1,3 @@
-문제 ucla 데이터 wine
-
-4가지 모델 예측/평가 dt, rf, sum, knn
 
 ### ucla
 ###################################################### ucla 결정트리
@@ -131,8 +128,63 @@ names(wine)
 names(wine)[2:14] <- substr(columns, 4, nchar(columns))
 names(wine)[1] <- 'Y'
 names(wine)
+wine$Y = factor(wine$Y)
+###################################################### wine 결정트리
+set.seed(2021)
+wine_index <- createDataPartition(wine$Y, p=0.8, list = F)
+wine_train  <- wine[wine_index,]
+wine_test   <- wine[-wine_index,]
+
+# 모델링
+dtc_w <- rpart(Y ~ ., wine_train)
+
+# 예측
+pre_wd <- predict(dtc_w, wine_test, type = 'class')
+
+# 평가
+confusionMatrix(pre_wd, wine_test$Y) #Accuracy : 0.9118 
+
+
+###################################################### wine 랜덤 포레스트
+set.seed(2021)
+wine_index <- createDataPartition(wine$Y, p=0.8, list = F)
+wine_train  <- wine[wine_index,]
+wine_test   <- wine[-wine_index,]
+
+# 모델링
+rf_w <- randomForest(Y ~ . , wine_train)
+
+# 예측
+pre_wr <- predict(rf_w, wine_test, type = 'class')
+
+# 평가
+confusionMatrix(pre_wr, wine_test$Y) #Accuracy : 0.9706
+
+###################################################### wine SVM
+
+library(e1071)
+library(caret)
 
 set.seed(2021)
 wine_index <- createDataPartition(wine$Y, p=0.8, list = F)
 wine_train  <- wine[wine_index,]
 wine_test   <- wine[-wine_index,]
+
+# 모델링
+svc_w <- svm(Y ~ . , wine_train)
+
+# 예측
+pre_ws <- predict(svc_w, wine_test , type = 'class')
+
+# 평가
+confusionMatrix(pre_ws, wine_test$Y) # Accuracy : 1  
+
+###################################################### wine KNN
+library(class)
+
+kw <- knn(wine_train[,1:14],wine_test[,1:14],
+         wine_train$Y, k=3)
+kw
+table(kw)
+confusionMatrix(kw, wine_test$Y) #Accuracy : 0.9367
+getwd()
