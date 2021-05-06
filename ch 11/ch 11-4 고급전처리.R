@@ -40,3 +40,11 @@ df <- data.frame(word=names(v), freq=v)
 head(df)
 wordcloud(words = df$word, freq = df$freq, min.freq = 1, max.words = 100,
           random.order = F, rot.per = 0.35)
+
+install.packages("wordcloud2")
+library(wordcloud2)
+wordcloud2(df)
+
+d200 <- df[1:200,]
+wordcloud2(d200, shape = 'star')
+wordcloud2(d200, minRotation = pi/6, maxRotation = pi/3, rotateRatio = 1.0)
