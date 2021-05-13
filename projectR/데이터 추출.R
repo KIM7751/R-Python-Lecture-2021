@@ -61,3 +61,18 @@ SG_stats <- stat_1 %>%
               'MP'=mean(MP, na.rm=T))
 
 View(SG_stats)
+
+
+# PF 스탯
+
+df1  <- df1 %>%
+    filter(Year>=2000) 
+
+PF_stats <- df1 %>%
+    filter(Pos == 'PF' & MP>=median(MP)) %>% 
+    group_by(Age) %>% 
+    select(Pos, Age, BLK, TRB, PT, FG.) %>%
+    arrange(desc(Age)) %>%  
+    summarize('BLK'=mean(BLK, na.rm=T), 'TRB'=mean(TRB, na.rm=T), 'PT' = mean(PT, na.rm=T), 'FG.'= mean(FG., na.rm=T))
+
+View(PF_stats)
