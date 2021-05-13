@@ -7,7 +7,7 @@ df <- read.csv('data/Seasons_Stats_NEW1.csv')
 df1 <- df %>% filter(Year>=2000)
 options(digits = 3)
 
-# 센터 스탯
+# C 스탯
 
 C_Sats <- df1 %>% 
        filter(Pos == 'C', MP >= median(MP)) %>% 
@@ -20,7 +20,7 @@ C_Sats <- df1 %>%
 View(C_Sats)
     
 
-# 포인트가드 스탯 
+# PG 스탯 
 
 PG_Stats <- df1 %>% 
          filter(Pos == 'PG', MP >= median(MP)) %>% 
@@ -31,3 +31,33 @@ PG_Stats <- df1 %>%
                    'PT'= mean(PT, na.rm=T), 'FT'= mean(FT., na.rm=T), 'MP'=mean(MP, na.rm=T))
 
 View(PG_Stats)
+
+# SF 스탯
+
+
+SF_Stats <- df1 %>%
+    filter(Year >= 2000) %>% 
+    select(Pos, Age, MP, FG., FT., PT) %>%
+    filter(Pos == "SF" & MP >= median(MP)) %>% 
+    na.omit()
+
+SF_Stats <- SF_Stats %>% 
+    group_by(Age) %>% 
+    arrange(desc(Age)) %>% 
+    summarize('FG.'=mean(FG.), 'FT%'=mean(FT.), 'PT' = mean(PT))
+View(SF_Stats)
+
+# SG 스탯
+
+stat_1 <- df1 %>% filter(Year>=2000)
+
+SG_stats <- stat_1 %>% 
+    filter(Pos == 'SG' & MP>=median(MP)) %>% 
+    group_by(Age) %>% 
+    select(X3P., X2P., FT., PT, MP) %>% 
+    arrange(desc(Age)) %>% 
+    summarize('3P%'=mean(X3P., na.rm=T), '2P%'=mean(X2P., na.rm=T), 
+              'FT%'=mean(FT., na.rm=T), 'PT'=mean(PT, na.rm=T), 
+              'MP'=mean(MP, na.rm=T))
+
+View(SG_stats)
