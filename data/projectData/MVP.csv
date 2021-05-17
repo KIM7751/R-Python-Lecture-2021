@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Year,Player,Age,Tm,G,MP,PT,TRB,AST,STL,BLK,FG%,3P%,FT%,MVP
+=======
+Season,Player,Age,Tm,G,MP,PT,TRB,AST,STL,BLK,FG%,3P%,FT%,MVP
+>>>>>>> 23a8613bc547c9c9d539fc4696301d48e4342add
 1956,Bob Pettit,23,STL,72,2794,25.7,16.2,2.6,,,0.429,,0.736,1
 1957,Bob Cousy,28,BOS,64,2483,20.6,4.8,7.5,,,0.378,,0.821,1
 1958,Bill Russell,23,BOS,69,2677,16.6,22.7,2.9,,,0.442,,0.519,1
