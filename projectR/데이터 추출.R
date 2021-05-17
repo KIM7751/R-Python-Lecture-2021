@@ -76,3 +76,10 @@ PF_stats <- df1 %>%
     summarize('BLK'=mean(BLK, na.rm=T), 'TRB'=mean(TRB, na.rm=T), 'PT' = mean(PT, na.rm=T), 'FG.'= mean(FG., na.rm=T))
 
 View(PF_stats)
+
+
+##################### 예측해보기
+library(rpart)
+library(caret)
+library(rpart.plot)
+
