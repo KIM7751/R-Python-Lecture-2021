@@ -1,0 +1,20 @@
+RAW data (Seasons_Stats_Last) - 'https://www.kaggle.com/drgilermo/nba-players-stats'에서 다운로드
+
+MVP data (MVP) - 'https://www.basketball-reference.com/awards/mvp.html' 
+                        엑셀파일로 만든후, csv로 convert하였음
+
+2021Player data (2021Player) - 'https://www.basketball-reference.com/leagues/NBA_2021_per_game.html'
+                                       엑셀파일로 만든후, csv로 convert하였음
+ 
+
+
+1차 스텟만으로 MVP 예측 -> RAW데이터의 2차스텟은 모두 제외, 시즌득점을 경기당 평균득점으로 환산하였음
+
+RAW, MVP, 2021Player  -> 추가된 열 - MVP ( 0 = NOT_MVP , 1 = MVP ),  PT (경기당 평균득점)
+2021Player - MVP ( 0 = probably_not_MVP , 1 = probably_MVP )  * probably_MVP는 basketball-reference 사이트의 MVP-Tracker 수치를 참고하였음.
+
+
+독립변수로 쓸 값 - G(경기수), MP(출전시간), FG%(필드골 성공률), 3P%(3점슛 성공률), 
+                        FT%(자유투 성공률), TRB(리바운드), AST(어시스트), STL(스틸), PT(득점)
+연구 개요에도 설명했듯이 1차스텟만으로 MVP를 예측할 것이기 때문에 해당 항목만 추출하였음.
+

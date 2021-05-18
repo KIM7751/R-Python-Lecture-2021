@@ -7,7 +7,7 @@ library(grid)
 library(gtable)
 library(gridExtra)
 
-df <- read.csv('C:/projectR/rawdata/Seasons_Stats_NEW1.csv')
+df <- read.csv('C:/projectR/rawdata/Seasons_Stats_NEW1.csv') 
 df1 <- df %>% filter(Year>=2000)
 options(digits = 3)
 
