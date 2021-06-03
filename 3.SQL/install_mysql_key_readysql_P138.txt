@@ -1,0 +1,88 @@
+<MYSQL 다운로드 경로>
+MySQL Community (GPL) Downloads -> MySQL Community Server -> Windows (x86, 64-bit), ZIP Archive	8.0.25	201.2M	
+
+<로컬 드라이브 C:에 복사 붙여 넣기>
+초기세팅 -> 내PC 속성 -> 고급 시스템 설정 -> 환경변수 -> 새로 만들기 -> 사용자 변수 (변수이름 "MYSQL_HOME" 변수내용"c:\mysql") / 시스템 변수(Path C:\mysql\bin)
+
+<mysql에서 메모장 "my.ini" 만들기>
+[mysqld]
+basedir=c:\mysql
+datadir=c:\mysql\data
+port=3306
+
+<cmd 관리자 권한으로 실행>
+mysqld --initialize
+mysqld --install
+
+<검색창 "서비스">
+MySQL 클릭 -> 서비스 상태 시작 클릭
+
+<cmd 복귀>
+mysql -uroot -p(로그인)
+password -> mysql/data/user66744778.err에 임시비밀번호 입력
+
+<mysql 접속 비밀번호 변경>
+alter user 'root'@'localhost' identified with mysql_native_password by '7751';
+exit
+
+<mysql 재로그인>
+mysql -uroot -p(로그인)
+7751
+
+<데이터베이스 조회>
+show databases;
+-내 DB를 보여줄것임
+
+<데이터베이스 만들기>
+create database mytest_1;
+show databases;
+-기존에 DB + mytest_1
+
+<만든 DB 살펴보기>
+use mytest_1;
+show tables;
+- 비었다고 뜰거임.
+
+<본격적인 테이블 만들기>
+
+CREATE TABLE Book (
+bookid INTEGER PRIMARY KEY,
+bookname VARCHAR(40),
+publisher	 VARCHAR(40),
+price INTEGER
+);
+
+show tables; 
+
+
+CREATE TABLE Customer (
+custid INTEGER PRIMARY KEY,
+name VARCHAR(40),
+address VARCHAR(40),
+phone VARCHAR(20)
+);
+
+show tables;
+
+CREATE TABLE Orders (
+orderid INTEGER PRIMARY KEY,
+custid INTEGER,
+bookid INTEGER,
+saleprice INTEGER,
+orderdate DATE,
+FOREIGN KEY (custid) REFERENCES Customer(custid),
+FOREIGN KEY (bookid) REFERENCES Book(bookid)
+);
+
+<만든 table 조회하기>
+desc book;
+desc customer;
+desc order;
+
+<만든 table 없애기>
+drop table ~
+
+<종료하기>
+
+use mysql;
+exit
