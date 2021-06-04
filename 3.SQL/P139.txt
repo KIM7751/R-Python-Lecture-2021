@@ -1,0 +1,212 @@
+<book 표 안에 항목을 넣는 과정>
+INSERT INTO Book VALUES(1, '축구의 역사', '굿스포츠', 7000);
+INSERT INTO Book VALUES(2, '축구아는 여자', '나무수', 13000);
+INSERT INTO Book VALUES(3, '축구의 이해', '대한미디어', 22000);
+INSERT INTO Book VALUES(4, '골프 바이블', '대한미디어', 35000);
+INSERT INTO Book VALUES(5, '피겨 교본', '굿스포츠', 8000);
+INSERT INTO Book VALUES(6, '역도 단계별기술', '굿스포츠', 6000);
+INSERT INTO Book VALUES(7, '야구의 추억', '이상미디어', 20000);
+INSERT INTO Book VALUES(8, '야구를 부탁해', '이상미디어', 13000);
+INSERT INTO Book VALUES(9, '올림픽 이야기', '삼성당', 7500);
+INSERT INTO Book VALUES(10, 'Olympic Champions', 'Pearson', 13000);
+
+<book 표 잘 들어갔나 확인하는 수단>
+select * from book; 
+
+<Customer 표 안에 항목을 넣는 과정>
+INSERT INTO Customer VALUES(1, '박지성', '영국 맨체스타', '000-5000-0001');
+INSERT INTO Customer VALUES(2, '김연아', '대한민국 서울', '000-6000-0001');
+INSERT INTO Customer VALUES(3, '장미란', '대한민국 강원도', '000-7000-0001');
+INSERT INTO Customer VALUES(4, '추신수', '미국 클리브랜드', '000-8000-0001');
+INSERT INTO Customer VALUES(5, '박세리', '대한민국 대전', NULL);
+
+
+<Customer 표 잘 들어갔나 확인하는 수단>
+select * from Customer;
+
+<Oders 표 안에 항목을 넣는 과정>
+INSERT INTO Orders VALUES(1, 1, 1, 6000, STR_TO_DATE('2014-07-01' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(2, 1, 3, 21000, STR_TO_DATE('2014-07-03' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(3, 2, 5, 8000, STR_TO_DATE('2014-07-03' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(4, 3, 6, 6000, STR_TO_DATE('2014-07-04' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(5, 4, 7, 20000, STR_TO_DATE('2014-07-05' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(6, 1, 2, 12000, STR_TO_DATE('2014-07-07' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(7, 4, 8, 13000, STR_TO_DATE('2014-07-07' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(8, 3, 10, 12000, STR_TO_DATE('2014-07-08' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(9, 2, 10, 7000, STR_TO_DATE('2014-07-09' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(10, 3, 8, 13000, STR_TO_DATE('2014-07-10' , '%Y-%m-%d'));
+
+<Orders 표 잘 들어갔나 확인하는 수단>
+select * from Orders;
+
+<Imported_Book 표 만드는 과정>
+CREATE TABLE Imported_Book(
+bookid INTEGER,
+bookname VARCHAR(40),
+publisher VARCHAR(40),
+price INTEGER
+);
+
+<Imported_Book 표 잘 만들어졌는지 확인>
+show tables;
+
+<Imported_Book 표 안에 항목을 넣는 과정>
+INSERT INTO Imported_Book VALUES(21, 'Zen Golf', 'Pearson', 12000);
+INSERT INTO Imported_Book VALUES(22, 'Soccer Skills', 'Human Kinetics', 15000);
+
+<만든 항목 확정>
+commit;
+
+<내용을 수정할때>
+update book set price = 8000 where bookid = 1;
+
+book 이라는 관계(표)에서 가격이 10000원 이하인 도서목록을 검색하라
+= select book,price from book where price <=10000
+
+book 이라는 관계(표)에서 가격이 7000이상 10000이하인 도서목록 가격을 검색하라
+= select book,price from book where price >=7000 and price <=10000
+= select book,price from book where BRTWEEN 7000 and 10000se
+
+<select * from customer;>
+- customer 표에 "전체 열"을 모두 가져옴.
+
+<select phone from customer;>
+- customer 표에 "phone" 열을 가져옴.
+
+<select name from customer where name = '김연아' or '추신수;>
+- customer 표에 "name" 열을 가져오는데 "김연아" 또는 "추신수" 
+
+<select DISTINCT publisher from book;>
+- book 표에 "publisher" 열을 가져오는데 DISTINCT(중복제거) 해서 가져오기
+
+<기존 데이터 바꾸기>
+update book set price = 8000 where bookid =1;
+- 기존에 book 표에 bookid1 인 가격을 8000원으로 바꾼다.
+
+<특정 문자 들어간 데이터 조회하기>
+select bookname, price from book where bookname LIKE '%축구%';
+- book 이라는 표에서 bookname, price 열을 가져오는데 조건은 "축구"가 들어있는 녀석들
+
+<n번째 위치에 특정한 문자열의 데이터 조회하기>
+select bookname from book where bookname LIKE '_구%';
+- book 이라는 표에서 bookname 중 두번재에 "구"가 들어가는 데이터 조회
+
+책 제목에 축구라는 문구가 있고 대한미디어는 제외하는 레코드를 검색하세요
+= select bookname from book where bookname LIKE '%축구%' AND NOT publisher ='대한미디어';
+
+<ORDER BY_ 이름순으로 보고싶을때>
+select * from book order by bookname;
+
+<정렬 기준이 여러 개일때>
+select * from book order by price , bookname;  
+- " , " 를 기준으로 price를 1차로 오름차순 진행하고 2차로 bookname을 오름차순을 진행함.
+
+< 오름차순,내림차순>
+
+
+
+<집계 함수>
+
+SELECT SUM(saleprice) FROM Orders ;
+-orders 표에서 "saleprice" 의 합을 구함.
+SELECT SUM(saleprice) AS 총매출 FROM Orders ;
+-orders 표에서 "saleprice" 의 합을 구하는데 이름은 "총매출" 로 하겠다.
+
+<GROUP BY> "속성 값이 같은 값끼리 그룹을 만들 수 있다."
+
+고객별로 주문한 도서의 총 수량과 총 판매액 구하자
+= SELECT custid, COUNT(*)  AS '총수량', SUM(saleprice) AS '총 판매액' FROM Orders GROUP BY custid;
+고객별로 = GROUP BY custid
+주문한    = FROM Orders
+도서의 총수량 = SELECT COUNT(*) AS '총수량'
+총 판매액       = SELECT SUM(saleprice)
+
+<Having>
+
+가격이 8000원 이상인 도서를 구매한 고객에 대하여 고객별 주문 도서의 총수량을 구하시오.
+단 두 권 이상 구매한 고객만 구하시오
+
+SELECT custid, COUNT(*) AS '총수량' FROM Orders WHERE saleprice >=8000 GROUP BY custid HAVING COUNT(*)>=2;
+가격이 8000원 이상 = WHERE saleprice >=8000
+도서를 구매한 = FROM Order
+고객별 = GROUP BY custid
+주문 도서의 총 수량 = SELECT custid, COUNT(*) AS '총수량'
+단 두 권 이상 구매한 고객만 = HAVING COUNT(*)>=2
+
+<동등 조인> 교집합만 이야기함.
+
+3-21 질의
+SELECT * FROM Customer , Orders; 
+10 * 5 = 50 모든 조합의 표가 나옴 
+공통 속성인 custid를 기준으로 하나 하나 조합해 의미없는 데이터가 도출됨
+
+SELECT * FROM Customer, Orders WHERE Customer.custid =Orders.custid;
+10줄의 표가 나옴.
+custid를 같게 하므므로써 인물에 따른 의미 있는 데이터가 도출됨
+
+3-22질의
+
+SELECT * FROM Customer, Orders WHERE Customer.custid = Orders.custid ORDER BY Customer.custid;
+
+3-23질의
+
+SELECT name, saleprice FROM Customer, Orders WHERE Customer.custid = Orders.custid;
+
+3-24질의
+
+SELECT name, SUM(saleprice) AS "총 판매액" FROM Customer, Orders WHERE Customer.custid = Orders.custid Group BY Customer.name ORDER BY Customer.name;
+
+3-25질의 
+
+SELECT Customer.name, Book.Bookname FROM Customer, Orders, Book WHERE Customer.custid = Orders.custid AND Book.bookid = Orders.bookid;
+
+3-26질의 
+
+SELECT Customer.name, Book.bookname FROM Customer, Book, Orders WHERE Customer.custid = Orders.custid AND Book.bookid = Orders.bookid AND Book.price = 20000;
+
+<외부 조인> LEFT / RIGHT ==> LEFT + 교집합 / RIGHT + 교집합 
+
+3-27질의
+
+SELECT Customer.name, saleprice FROM Customer LEFT OUTER JOIN Orders
+ON Customer.custid = Orders.custid;
+
+<부속 질의 Sub Query>
+
+가장 비싼 도서의 이름은 무엇이며 얼마인가
+
+1-1 가장 비싼책은 얼마인가?
+SELECT MAX(price)
+FROM book;
+35000
+
+1-2 비싼책 이름은 무엇인가?
+SELECT Bookname
+FROM book
+WHERE price = 35000;
+
+(1-1) + (1-2) 
+SELECT Bookname FROM book WHERE price =(SELECT MAX(price) FROM book);
+
+3-29질의 
+
+SELECT name FROM Customer WHERE custid IN (select custid FROM Orders);
+
+3-30질의
+
+<집한 연산 - 고객이름의 합집합을 구하고싶다 UNION 문장과 문장을 연결>
+
+3-32질의
+SELECT name FROM customer WHERE address LIKE '대한민국%'
+UNION
+SELECT name FROM Customer WHERE custid IN (SELECT custid FROM Orders);
+
+SELECT name FROM customer WHERE address LIKE '대한민국%'
+UNION ALL
+SELECT name FROM Customer WHERE custid IN (SELECT custid FROM Orders);
+- 중복 허용
+
+SELECT name FROM customer WHERE address LIKE '대한민국%'
+AND
+Name NOT IN (SELECT name FROM Customer WHERE custid IN (SELECT custid FROM Orders));
+- 차집합
