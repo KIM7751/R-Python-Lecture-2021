@@ -206,7 +206,66 @@ UNION ALL
 SELECT name FROM Customer WHERE custid IN (SELECT custid FROM Orders);
 - 중복 허용
 
+<차집합>
 SELECT name FROM customer WHERE address LIKE '대한민국%'
 AND
 Name NOT IN (SELECT name FROM Customer WHERE custid IN (SELECT custid FROM Orders));
-- 차집합
+
+<교집합>
+SELECT name FROM customer WHERE address LIKE '대한민국%'
+AND
+Name IN (SELECT name FROM Customer WHERE custid IN (SELECT custid FROM Orders));
+
+P199 연습문제 
+
+(내 답안)
+
+1. 도서번호가 1인 도서의 이름
+SELECT bookname FROM book WHERE bookid = 1;
+
+2. 가격이 20,000원 이상인 도서의 이름
+SELECT bookname FROM book WHERE price >=20000;
+
+3. 박지성의 총구매액
+SELECT name, SUM(saleprice) AS "총 판매액" FROM Customer, Orders WHERE Customer.custid = Orders.custid AND name = "박지성";
+
+4. 박지성의 구매한 도서의 수 
+SELECT COUNT(*) FROM Orders WHERE custid = 1;
+
+5. 박지성이 구매한 도서의 출판사 수
+
+6. 박지성이 구매한 도서의 이름, 가격, 정가와 판매가격의 차이 
+
+(선생님 답안)
+
+1. 도서번호가 1인 도서의 이름
+SELECT bookname FROM book WHERE bookid = 1;
+
+
+2. 가격이 20,000원 이상인 도서의 이름
+SELECT bookname FROM book WHERE price >=20000;
+
+
+3. 박지성의 총구매액
+SELECT SUM(saleprice) AS '총 구매액'
+FROM Customer, Orders
+WHERE Customer.custid = Orders.custid AND Customer.name ='박지성';
+
+4. 박지성의 구매한 도서의 수 
+SELECT COUNT(*) as '도서수' FROM Customer, Orders
+WHERE Customer.custid=Orders.custid
+AND Customer.name LIKE '박지성';
+
+5. 박지성이 구매한 도서의 출판사 수
+SELECT COUNT(DISTINCT publisher) AS '출판사수'
+FROM Customer, Orders, Book
+WHERE Customer.custid=Orders.custid AND Orders.bookid=Book.bookid
+AND Customer.name ='박지성';
+
+
+6. 박지성이 구매한 도서의 이름, 가격, 정가와 판매가격의 차이  
+SELECT bookname, price, price-saleprice
+FROM Customer, Orders, Book
+WHERE Customer.custid=Orders.custid AND Orders.bookid=Book.bookid
+AND Customer.name ='박지성';
+
