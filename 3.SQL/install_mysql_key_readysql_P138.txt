@@ -86,3 +86,4 @@ drop table ~
 
 use mysql;
 exit
+
