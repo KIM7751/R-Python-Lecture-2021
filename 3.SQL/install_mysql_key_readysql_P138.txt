@@ -82,7 +82,7 @@ desc orders;
 <만든 table 없애기>
 drop table ~
 
-<종료하기>
+<종료>
 
 use mysql;
 exit
