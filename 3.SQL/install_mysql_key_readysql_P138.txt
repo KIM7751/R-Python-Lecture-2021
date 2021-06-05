@@ -77,7 +77,7 @@ FOREIGN KEY (bookid) REFERENCES Book(bookid)
 <만든 table 조회하기>
 desc book;
 desc customer;
-desc order;
+desc orders;
 
 <만든 table 없애기>
 drop table ~
