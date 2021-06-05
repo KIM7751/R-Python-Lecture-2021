@@ -1,0 +1,362 @@
+<book 표 안에 항목을 넣는 과정>
+INSERT INTO Book VALUES(1, '축구의 역사', '굿스포츠', 7000);
+INSERT INTO Book VALUES(2, '축구아는 여자', '나무수', 13000);
+INSERT INTO Book VALUES(3, '축구의 이해', '대한미디어', 22000);
+INSERT INTO Book VALUES(4, '골프 바이블', '대한미디어', 35000);
+INSERT INTO Book VALUES(5, '피겨 교본', '굿스포츠', 8000);
+INSERT INTO Book VALUES(6, '역도 단계별기술', '굿스포츠', 6000);
+INSERT INTO Book VALUES(7, '야구의 추억', '이상미디어', 20000);
+INSERT INTO Book VALUES(8, '야구를 부탁해', '이상미디어', 13000);
+INSERT INTO Book VALUES(9, '올림픽 이야기', '삼성당', 7500);
+INSERT INTO Book VALUES(10, 'Olympic Champions', 'Pearson', 13000);
+
+<book 표 잘 들어갔나 확인하는 수단>
+select * from book; 
+
+<Customer 표 안에 항목을 넣는 과정>
+INSERT INTO Customer VALUES(1, '박지성', '영국 맨체스타', '000-5000-0001');
+INSERT INTO Customer VALUES(2, '김연아', '대한민국 서울', '000-6000-0001');
+INSERT INTO Customer VALUES(3, '장미란', '대한민국 강원도', '000-7000-0001');
+INSERT INTO Customer VALUES(4, '추신수', '미국 클리브랜드', '000-8000-0001');
+INSERT INTO Customer VALUES(5, '박세리', '대한민국 대전', NULL);
+
+
+<Customer 표 잘 들어갔나 확인하는 수단>
+select * from Customer;
+
+<Oders 표 안에 항목을 넣는 과정>
+INSERT INTO Orders VALUES(1, 1, 1, 6000, STR_TO_DATE('2014-07-01' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(2, 1, 3, 21000, STR_TO_DATE('2014-07-03' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(3, 2, 5, 8000, STR_TO_DATE('2014-07-03' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(4, 3, 6, 6000, STR_TO_DATE('2014-07-04' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(5, 4, 7, 20000, STR_TO_DATE('2014-07-05' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(6, 1, 2, 12000, STR_TO_DATE('2014-07-07' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(7, 4, 8, 13000, STR_TO_DATE('2014-07-07' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(8, 3, 10, 12000, STR_TO_DATE('2014-07-08' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(9, 2, 10, 7000, STR_TO_DATE('2014-07-09' , '%Y-%m-%d'));
+INSERT INTO Orders VALUES(10, 3, 8, 13000, STR_TO_DATE('2014-07-10' , '%Y-%m-%d'));
+
+<Orders 표 잘 들어갔나 확인하는 수단>
+select * from Orders;
+
+<Imported_Book 표 만드는 과정>
+CREATE TABLE Imported_Book(
+bookid INTEGER,
+bookname VARCHAR(40),
+publisher VARCHAR(40),
+price INTEGER
+);
+
+<Imported_Book 표 잘 만들어졌는지 확인>
+show tables;
+
+<Imported_Book 표 안에 항목을 넣는 과정>
+INSERT INTO Imported_Book VALUES(21, 'Zen Golf', 'Pearson', 12000);
+INSERT INTO Imported_Book VALUES(22, 'Soccer Skills', 'Human Kinetics', 15000);
+
+<만든 항목 확정>
+commit;
+
+<기존 데이터 바꾸기>
+update book set price = 8000 where bookid =1;
+- 기존에 book 표에 bookid1 인 가격을 8000원으로 바꾼다.
+
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+
+1. 모든 도서의 이름과 가격을 검색하시오
+
+SELECT bookname, price FROM book;
+
+TIP) SELECT 절에 순서에 따라 출력하는 순서도 변경됨
+
++-------------------+-------+
+| bookname          | price |
++-------------------+-------+
+| 축구의 역사       |  7000 |
+| 축구아는 여자     | 13000 |
+| 축구의 이해       | 22000 |
+| 골프 바이블       | 35000 |
+| 피겨 교본         |  8000 |
+| 역도 단계별기술   |  6000 |
+| 야구의 추억       | 20000 |
+| 야구를 부탁해     | 13000 |
+| 올림픽 이야기     |  7500 |
+| Olympic Champions | 13000 |
++-------------------+-------+
+
+2. 모든 도서의 도서번호, 도서이름, 출판사, 가격을 검색하시오
+
+SELECT * FROM book;
+
++--------+-------------------+------------+-------+
+| bookid | bookname          | publisher  | price |
++--------+-------------------+------------+-------+
+|      1 | 축구의 역사       | 굿스포츠   |  7000 |
+|      2 | 축구아는 여자     | 나무수     | 13000 |
+|      3 | 축구의 이해       | 대한미디어 | 22000 |
+|      4 | 골프 바이블       | 대한미디어 | 35000 |
+|      5 | 피겨 교본         | 굿스포츠   |  8000 |
+|      6 | 역도 단계별기술   | 굿스포츠   |  6000 |
+|      7 | 야구의 추억       | 이상미디어 | 20000 |
+|      8 | 야구를 부탁해     | 이상미디어 | 13000 |
+|      9 | 올림픽 이야기     | 삼성당     |  7500 |
+|     10 | Olympic Champions | Pearson    | 13000 |
++--------+-------------------+------------+-------+
+
+3. 도서 테이블에 있는 모든 출판사를 검색하시오.
+
+SELECT publisher FROM book;
+
++------------+
+| publisher  |
++------------+
+| 굿스포츠   |
+| 나무수     |
+| 대한미디어 |
+| 대한미디어 |
+| 굿스포츠   |
+| 굿스포츠   |
+| 이상미디어 |
+| 이상미디어 |
+| 삼성당     |
+| Pearson    |
++------------+
+
+TIP) 기본적으로는 중복값을 출력하는데 제거 하고 싶다면
+      SELECT DISTINCT 사용
+
+SELECT DISTINCT publisher FROM book;
+
++------------+
+| publisher  |
++------------+
+| 굿스포츠   |
+| 나무수     |
+| 대한미디어 |
+| 이상미디어 |
+| 삼성당     |
+| Pearson    |
++------------+
+
+4. 가격이 20000원 미만인 도서를 검색하시오<비교>
+
+SELECT bookname FROM book WHERE price <20000;
+
++-------------------+
+| bookname          |
++-------------------+
+| 축구의 역사       |
+| 축구아는 여자     |
+| 피겨 교본         |
+| 역도 단계별기술   |
+| 야구를 부탁해     |
+| 올림픽 이야기     |
+| Olympic Champions |
++-------------------+
+
+5. 가격이 10000원 이상 20000원 이하인 도서를 검색하시오<범위>
+
+SELECT bookname FROM book WHERE price >= 10000 AND price <=20000;
+SELECT bookname FROM book WHERE price BETWEEN 10000 AND 20000;
+
++-------------------+
+| bookname          |
++-------------------+
+| 축구아는 여자     |
+| 야구의 추억       |
+| 야구를 부탁해     |
+| Olympic Champions |
++-------------------+
+
+6. 출판사가 '굿스포츠' 혹은 '대한미디어'인 도서를 검색하시오<집합>
+
+SELECT bookname FROM book WHERE publisher IN ('굿스포츠', '대한미디어');
++-----------------+
+| bookname        |
++-----------------+
+| 축구의 역사     |
+| 축구의 이해     |
+| 골프 바이블     |
+| 피겨 교본       |
+| 역도 단계별기술 |
++-----------------+
+
+7. '축구의 역사'를 출간한 출판사를 검색하시오<패턴>
+
+SELECT bookname, publisher FROM book WHERE bookname LIKE '축구의 역사';
+
++-------------+-----------+
+| bookname    | publisher |
++-------------+-----------+
+| 축구의 역사 | 굿스포츠  |
++-------------+-----------+
+
+8. 도서 이름에 '축구'가 포함된 출판사를 검색하시오.<패턴>
+
+SELECT bookname,publisher FROM book WHERE bookname LIKE '%축구%';
+
++---------------+------------+
+| bookname      | publisher  |
++---------------+------------+
+| 축구의 역사   | 굿스포츠   |
+| 축구아는 여자 | 나무수     |
+| 축구의 이해   | 대한미디어 |
++---------------+------------+
+
+9. 도서이름의 왼쪽 두 번째 위치에 '구' 라는 문자열을 갖는 도서를 검색하시오.<패턴>
+
+SELECT bookname FROM book WHERE bookname LIKE '_구%';
+
++---------------+
+| bookname      |
++---------------+
+| 축구의 역사   |
+| 축구아는 여자 |
+| 축구의 이해   |
+| 야구의 추억   |
+| 야구를 부탁해 |
++---------------+
+
+10. 축구에 관한 도서 중 가격이 20000원 이상인 도서를 검색하라 <복합조건>
+
+SELECT bookname,price FROM book WHERE bookname LIKE '%축구%' AND price >=20000;
+
++-------------+-------+
+| bookname    | price |
++-------------+-------+
+| 축구의 이해 | 22000 |
++-------------+-------+
+
+11. 출판사가 '굿스포츠' 혹은 '대한미디어'인 도서를 검색하시오 <복합조건>
+
+SELECT bookname, publisher FROM book WHERE publisher = '굿스포츠' OR publisher = '대한미디어';
+
++-----------------+------------+
+| bookname        | publisher  |
++-----------------+------------+
+| 축구의 역사     | 굿스포츠   |
+| 축구의 이해     | 대한미디어 |
+| 골프 바이블     | 대한미디어 |
+| 피겨 교본       | 굿스포츠   |
+| 역도 단계별기술 | 굿스포츠   |
++-----------------+------------+
+
+12. 도서를 이름순으로 검색하시오 <ORDER BY>
+
+SELECT bookname FROM book ORDER BY bookname;
+TIP) 숫자 > 영문자 > 한글
+
++-------------------+
+| bookname          |
++-------------------+
+| Olympic Champions |
+| 골프 바이블       |
+| 야구를 부탁해     |
+| 야구의 추억       |
+| 역도 단계별기술   |
+| 올림픽 이야기     |
+| 축구아는 여자     |
+| 축구의 역사       |
+| 축구의 이해       |
+| 피겨 교본         |
++-------------------+
+
+13. 도서를 가격순으로 검색하고 가격이 같으면 이름순으로 검색하시오
+
+SELECT bookname, price FROM book ORDER BY price, bookname;
+TIP) 기본적으로 오름차순으로 진행된다
+
++-------------------+-------+
+| bookname          | price |
++-------------------+-------+
+| 역도 단계별기술   |  6000 |
+| 축구의 역사       |  7000 |
+| 올림픽 이야기     |  7500 |
+| 피겨 교본         |  8000 |
+| Olympic Champions | 13000 |
+| 야구를 부탁해     | 13000 |
+| 축구아는 여자     | 13000 |
+| 야구의 추억       | 20000 |
+| 축구의 이해       | 22000 |
+| 골프 바이블       | 35000 |
++-------------------+-------+
+
+14. 도서를 가격의 내림차순으로 검색하시오. 만약 가격이 같다면 출판사의 오름차순
+
+SELECT bookname, price, publisher FROM book ORDER BY price DESC, publisher ASC;
+
++-------------------+-------+------------+
+| bookname          | price | publisher  |
++-------------------+-------+------------+
+| 골프 바이블       | 35000 | 대한미디어 |
+| 축구의 이해       | 22000 | 대한미디어 |
+| 야구의 추억       | 20000 | 이상미디어 |
+| Olympic Champions | 13000 | Pearson    |
+| 축구아는 여자     | 13000 | 나무수     |
+| 야구를 부탁해     | 13000 | 이상미디어 |
+| 피겨 교본         |  8000 | 굿스포츠   |
+| 올림픽 이야기     |  7500 | 삼성당     |
+| 축구의 역사       |  7000 | 굿스포츠   |
+| 역도 단계별기술   |  6000 | 굿스포츠   |
++-------------------+-------+------------+
+
+15. 고객이 주문한  도서의 총 판매액을 구하시오 <집계함수>
+
+SELECT SUM(saleprice)  AS "총 판매액" FROM Orders;
+
++-----------+
+| 총 판매액 |
++-----------+
+|    118000 |
++-----------+
+
+16. 2번 김연아 고객이 주문한 도서의 총 판매액을 구하시오 <집계함수>
+
+SELECT SUM(saleprice) AS "2번 총 판매액" FROM Orders WHERE custid = 2;
+
++---------------+
+| 2번 총 판매액 |
++---------------+
+|         15000 |
++---------------+
+
+17. 고객이 주문한 도서의 총 판매액, 평균값, 최저가, 최고가를 구하시오 <집계함수>
+
+SELECT 
+SUM(saleprice) AS "총 판매액",
+AVG(saleprice) AS '평균값',
+MIN(saleprice) AS '최저가',
+MAX(saleprice) AS '최고가'
+FROM Orders;
+
++-----------+------------+--------+--------+
+| 총 판매액 | 평균값     | 최저가 | 최고가 |
++-----------+------------+--------+--------+
+|    118000 | 11800.0000 |   6000 |  21000 |
++-----------+------------+--------+--------+
+
+18. 마당서점의 도서 판매 건수를 구하시오
+
+SELECT COUNT(*) FROM Orders;
+TIP) COUNT(속성) 을 넣으면 해당 속성의 행을 모두 세어준다.
+      COUNT(DISTINCT 속성) 을 넣으면 해당 속성의 중복을 제거하고 세어준다.
++----------+
+| COUNT(*) |
++----------+
+|       10 |
++----------+
+
+19. 고객별로 주문한 도서의 총 수량과 총 판매액을 구하시오 
+<어느 고객이 얼마나 주문했나 알고싶다 같은 행(열의 값이 같다)끼리 묶는 GROUP BY>
+
+SELECT 
+custid,
+COUNT(*) AS "총 수량", 
+SUM(saleprice)AS "총 판매액"
+FROM 
+Orders
+GROUP BY 
+custid;
+
+20.
