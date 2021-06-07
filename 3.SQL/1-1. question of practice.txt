@@ -1,0 +1,209 @@
+P199 2번
+
+1. 마당서점의 도서의 총개수
+SELECT COUNT(*) AS "도서 총 개수" FROM book;
+
++--------------+
+| 도서 총 개수 |
++--------------+
+|           10 |
++--------------+
+
+2.마당서점에 도서를 출고하는 출판사의 총 개수 
+
+SELECT COUNT(DISTINCT publisher) AS "출판사의 총 개수" FROM book;
+
++------------------+
+| 출판사의 총 개수 |
++------------------+
+|                6 |
++------------------+
+
+3. 모든 고객의 이름, 주소
+
+SELECT name, address FROM Customer
+
++--------+-----------------+
+| name   | address         |
++--------+-----------------+
+| 박지성 | 영국 맨체스타   |
+| 김연아 | 대한민국 서울   |
+| 장미란 | 대한민국 강원도 |
+| 추신수 | 미국 클리브랜드 |
+| 박세리 | 대한민국 대전   |
++--------+-----------------+
+
+4. 2014년 7월 4일 ~ 7월 7일 사이에 주문 받은 도서의 주문 번호
+
+SELECT orderid, orderdate FROM Orders WHERE orderdate BETWEEN '2014-07-04' AND '2014-07-07';
+
++---------+------------+
+| orderid | orderdate  |
++---------+------------+
+|       4 | 2014-07-04 |
+|       5 | 2014-07-05 |
+|       6 | 2014-07-07 |
+|       7 | 2014-07-07 |
++---------+------------+
+
+5. 2014년 7월 4일 ~ 7월 7일 사이에 주문 받은 도서를 제외한 도서의 주문 번호
+
+SELECT orderid, orderdate 
+FROM Orders 
+WHERE orderdate 
+NOT IN( '2014-07-04' , '2014-07-05', '2014-07-07');
+
+
+SELECT orderid, orderdate FROM Orders WHERE orderdate NOT BETWEEN '2014-07-04' AND '2014-07-07';
+
++---------+------------+
+| orderid | orderdate  |
++---------+------------+
+|       1 | 2014-07-01 |
+|       2 | 2014-07-03 |
+|       3 | 2014-07-03 |
+|       8 | 2014-07-08 |
+|       9 | 2014-07-09 |
+|      10 | 2014-07-10 |
++---------+------------+
+
+6. 성이 '김' 씨인 고객의 이름과 주소
+
+SELECT name,address FROM Customer WHERE name LIKE '김%';
+
++--------+---------------+
+| name   | address       |
++--------+---------------+
+| 김연아 | 대한민국 서울 |
++--------+---------------+
+
+7. 성이 '김'씨 이고 '아'로 끝나는 고객의 이름과 주소
+
+SELECT name,address FROM Customer WHERE name LIKE '김%아';
+
+8. 주문하지 않은 고객의 이름(부속질의사용) [NOT IN 을 사용할땐 허용 / != Subquery returns more than 1 row] 
+
+SELECT name
+FROM Customer
+WHERE custid NOT IN 
+(SELECT custid
+FROM Orders
+);
+
++--------+
+| name   |
++--------+
+| 박세리 |
++--------+
+
+9. 주문 금액의 총액과 주문의 평균 금액
+
+SELECT SUM(saleprice) AS '총액', AVG(saleprice) AS "평균 금액" FROM Orders;
+
++--------+------------+
+| 총액   | 평균 금액  |
++--------+------------+
+| 118000 | 11800.0000 |
++--------+------------+
+
+10. 고객의 이름과 고객별 구매액
+
+SELECT Customer.name, SUM(Orders.saleprice) AS "고객별 구매액"
+FROM Customer, Orders 
+WHERE Customer.custid = Orders.custid
+GROUP BY name;
+
++--------+---------------+
+| name   | 고객별 구매액 |
++--------+---------------+
+| 박지성 |         39000 |
+| 김연아 |         15000 |
+| 장미란 |         31000 |
+| 추신수 |         33000 |
++--------+---------------+
+
+11. 고객의 이름과 고객이 구매한 도서 목록 
+
+SELECT Customer.name, Book.bookname
+FROM Customer, Orders, Book 
+WHERE Customer.custid = Orders.custid AND
+          Orders.bookid = Book.bookid;
+
++--------+-------------------+
+| name   | bookname          |
++--------+-------------------+
+| 박지성 | 축구의 역사       |
+| 박지성 | 축구의 이해       |
+| 김연아 | 피겨 교본         |
+| 장미란 | 역도 단계별기술   |
+| 추신수 | 야구의 추억       |
+| 박지성 | 축구아는 여자     |
+| 추신수 | 야구를 부탁해     |
+| 장미란 | Olympic Champions |
+| 김연아 | Olympic Champions |
+| 장미란 | 야구를 부탁해     |
++--------+-------------------+
+
+12. 도서의 가격(Book) 과 판매가격(Orders)의 차이가 가장 많은 주문
+
+SELECT Orders.orderid, MAX(Book.price - Orders.saleprice) AS "도서의 가격과 판매가격의 최고차"
+FROM Book, Orders
+WHERE Book.bookid = Orders.bookid
+GROUP BY Orders.orderid
+HAVING Orders.orderid = 9;
+
+SELECT * FROM book, orders WHERE book.bookid =orders.bookid
+AND price - saleprice = (SELECT MAX(price-saleprice) FROM book, orders WHERE book.bookid = orders.bookid);
+
++---------+---------------------------------+
+| orderid | 도서의 가격과 판매가격의 최고차 |
++---------+---------------------------------+
+|       9 |                            6000 |
++---------+---------------------------------+
+
++--------+-------------------+-----------+-------+---------+--------+--------+-----------+------------+
+| bookid | bookname          | publisher | price | orderid | custid | bookid | saleprice | orderdate  |
++--------+-------------------+-----------+-------+---------+--------+--------+-----------+------------+
+|     10 | Olympic Champions | Pearson   | 13000 |       9 |      2 |     10 |      7000 | 2014-07-09 |
++--------+-------------------+-----------+-------+---------+--------+--------+-----------+------------+
+
+13. 도서의 판매액 평균보다 자신의 구매액 평균이 더 높은 고객의 이름
+
+1. 도서 판매액 평균 11800
+SELECT AVG(saleprice) AS "도서 판매액 평균"
+FROM Orders
+
++------------------+
+| 도서 판매액 평균 |
++------------------+
+|       11800.0000 |
++------------------+
+
+2. 자신의 구매액 평균 13000, 
+SELECT custid, AVG(saleprice) AS " 구매액 평균"
+FROM Orders
+GROUP BY custid;
+
++--------+-------------+
+| custid | 구매액 평균 |
++--------+-------------+
+|      1 |  13000.0000 |
+|      2 |   7500.0000 |
+|      3 |  10333.3333 |
+|      4 |  16500.0000 |
++--------+-------------+
+
+2 >1
+
+SELECT Customer.name, AVG(Orders.saleprice) AS " 구매액 평균"
+FROM Orders ,Customer
+WHERE Customer.custid =Orders.custid
+GROUP BY name
+HAVING  AVG(saleprice) > (SELECT AVG(saleprice) FROM Orders);
+
++--------+--------+-------------+
+| name   | custid | 구매액 평균 |
++--------+--------+-------------+
+| 박지성 |      1 |  13000.0000 |
+| 추신수 |      4 |  16500.0000 |
++--------+--------+-------------+
