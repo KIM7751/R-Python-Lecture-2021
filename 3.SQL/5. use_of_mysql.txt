@@ -1,0 +1,470 @@
+4장 <외부 sql 데이터 사용>
+
+1. 고양이 책 P83  링크 다운로드 -> C:/mysql 저장
+
+2. cmd mysql source c:/mysql/mysqlsampledatabase.sql;
+
+3. show tables;
+
++-------------------------+
+| Tables_in_classicmodels |
++-------------------------+
+| customers               |
+| employees               |
+| offices                 |
+| orderdetails            |
+| orders                  |
+| payments                |
+| productlines            |
+| products                |
++-------------------------+
+
+4. desc ~
+
+<구매 지표 추출> P86 
+- LEFT 조인, 정보 누락하지 않기 위해서
+
+SELECT A.orderdate, priceeach*quantityordered        # FROM절 때문에
+FROM orders A LEFT JOIN orderdetails B 
+ON A. ordernumber = B.ordernumber;
+
++------------+---------------------------+
+| orderdate  | priceeach*quantityordered |
++------------+---------------------------+
+| 2003-01-06 |                   4080.00 |
+| 2003-01-06 |                   2754.50 |
+| 2003-01-06 |                   1660.12 |
+| 2003-01-06 |                   1729.21 |
+| 2003-01-09 |                   2701.50 |
+| 2003-01-09 |                   4343.56 |
+| 2003-01-09 |                   1463.85 |
+| 2003-01-09 |                   2040.10 |
+| 2003-01-10 |                   3726.45 |
+| 2003-01-10 |                   1768.33 |
+| 2003-01-29 |                   5571.80 |
+| 2003-01-29 |                   5026.14 |
+| 2003-01-29 |                   3284.28 |
+| 2003-01-29 |                   3307.50 |
+| 2003-01-29 |                   1283.48 |
+| 2003-01-29 |                   2489.13 |
+| 2003-01-29 |                   2164.40 |
+| 2003-01-29 |                   2173.00 |
+| 2003-01-29 |                   3970.26 |
+2996 rows in set (0.01 sec)
+
+## 매출액(일자별, 월별, 연도별)
+a) 일별 매출액 조회 GROUP BY
+
+SELECT A.orderdate, SUM(priceeach*quantityordered)  AS Sales      
+FROM orders A LEFT JOIN orderdetails B 
+ON A. ordernumber = B.ordernumber
+GROUP BY 1                                                    # 첫 번째 Col로
+;
+
++------------+-----------+
+| orderdate  | Sales     |
++------------+-----------+
+| 2003-01-06 |  10223.83 |
+| 2003-01-09 |  10549.01 |
+| 2003-01-10 |   5494.78 |
+| 2003-01-29 |  50218.95 |
+| 2003-01-31 |  40206.20 |
+| 2003-02-11 |  53959.21 |
+| 2003-02-17 |  52151.81 |
+| 2003-02-24 |  22292.62 |
+| 2003-03-03 |  51001.22 |
+| 2003-03-10 |  25833.14 |
+| 2003-03-18 |  48425.69 |
+| 2003-03-25 |  16537.85 |
+| 2003-03-24 |   7674.94 |
+| 2003-03-26 |  11044.30 |
+| 2003-04-01 |  33383.14 |
+| 2003-04-04 |  21665.98 |
+| 2003-04-11 |   1627.56 |
+| 2003-04-16 |  44380.15 |
+| 2003-04-21 |   3101.40 |
+| 2003-04-28 |  35826.33 |
+| 2003-04-29 |  45864.03 |
+| 2003-05-07 |  16700.47 |
+| 2003-05-08 |  50824.66 |
+265 rows in set (0.01 sec)
+
+b) 월별 매출액 조회 SUBSTR()
+
+SELECT SUBSTR('abcde',2,3);   
+
++---------------------+
+| SUBSTR('abcde',2,3) |
++---------------------+
+| bcd                 |
++---------------------+
+
+SELECT SUBSTR(A.orderdate,1,7) MM, SUM(priceeach*quantityordered)  AS Sales      
+FROM orders A LEFT JOIN orderdetails B 
+ON A. ordernumber = B.ordernumber
+GROUP BY 1;    
+
++---------+-----------+
+| MM      | Sales     |
++---------+-----------+
+| 2003-01 | 116692.77 |
+| 2003-02 | 128403.64 |
+| 2003-03 | 160517.14 |
+| 2003-04 | 185848.59 |
+| 2003-05 | 179435.55 |
+| 2003-06 | 150470.77 |
+| 2003-07 | 201940.36 |
+| 2003-08 | 178257.11 |
+| 2003-09 | 236697.85 |
+| 2003-10 | 514336.21 |
+| 2003-11 | 988025.15 |
+| 2003-12 | 276723.25 |
+| 2004-01 | 292385.21 |
+| 2004-02 | 289502.84 |
+| 2004-03 | 217691.26 |
+| 2004-04 | 187575.77 |
+| 2004-05 | 248325.30 |
+| 2004-06 | 343370.74 |
+| 2004-07 | 325563.49 |
+| 2004-08 | 419327.09 |
+| 2004-09 | 283799.80 |
+| 2004-10 | 500233.86 |
+| 2004-11 | 979291.98 |
+| 2004-12 | 428838.17 |
+| 2005-01 | 307737.02 |
+| 2005-02 | 317192.17 |
+| 2005-03 | 359711.96 |
+| 2005-04 | 344820.62 |
+| 2005-05 | 441474.94 |
++---------+-----------+
+
+
+c) 연도별 매출액 조회
+
+SELECT SUBSTR(A.orderdate,1,4) YY, SUM(priceeach*quantityordered)  AS Sales      
+FROM orders A LEFT JOIN orderdetails B 
+ON A. ordernumber = B.ordernumber
+GROUP BY 1;                   
+
++------+------------+
+| YY   | Sales      |
++------+------------+
+| 2003 | 3317348.39 |
+| 2004 | 4515905.51 |
+| 2005 | 1770936.71 |
++------+------------+  
+
+## 구매자 수, 구매 건수(일자별, 월별, 연도별)
+
+SELECT orderdate, customernumber, ordernumber FROM classicmodels.orders;
+
++------------+----------------+-------------+
+| orderdate  | customernumber | ordernumber |
++------------+----------------+-------------+
+| 2003-01-06 |            363 |       10100 |
+| 2003-01-09 |            128 |       10101 |
+| 2003-01-10 |            181 |       10102 |
+| 2003-01-29 |            121 |       10103 |
+| 2003-01-31 |            141 |       10104 |
+| 2003-02-11 |            145 |       10105 |
+| 2003-02-17 |            278 |       10106 |
+| 2003-02-24 |            131 |       10107 |
+| 2003-03-03 |            385 |       10108 |
+| 2003-03-10 |            486 |       10109 |
+| 2003-03-18 |            187 |       10110 |
+| 2003-03-25 |            129 |       10111 |
+| 2003-03-24 |            144 |       10112 |
+| 2003-03-26 |            124 |       10113 |
+| 2003-04-01 |            172 |       10114 |
+| 2003-04-04 |            424 |       10115 |
+| 2003-04-11 |            381 |       10116 |
+| 2003-04-16 |            148 |       10117 |
+| 2003-04-21 |            216 |       10118 |
+| 2003-04-28 |            382 |       10119 |
+| 2003-04-29 |            114 |       10120 |
+| 2003-05-07 |            353 |       10121 |
+| 2003-05-08 |            350 |       10122 |
+| 2003-05-20 |            103 |       10123 |
+| 2003-05-21 |            112 |       10124 |
+326 rows in set (0.00 sec)
+
+- 중복여부확인
+
+SELECT COUNT(ordernumber) N_ORDERS, COUNT(DISTINCT ordernumber) N_ORDERS_DISTINCT 
+FROM classicmodels.orders;
+
++----------+-------------------+
+| N_ORDERS | N_ORDERS_DISTINCT |
++----------+-------------------+
+|      326 |               326 |
++----------+-------------------+
+
+
+SELECT orderdate,
+COUNT(DISTINCT customernumber) N_PURCHASER,
+COUNT(ordernumber) N_ORDERS
+FROM classicmodels.orders
+GROUP BY 1;
+
++------------+-------------+----------+
+| orderdate  | N_PURCHASER | N_ORDERS |
++------------+-------------+----------+
+| 2003-01-06 |           1 |        1 |
+| 2003-01-09 |           1 |        1 |
+| 2003-01-10 |           1 |        1 |
+| 2003-01-29 |           1 |        1 |
+| 2003-01-31 |           1 |        1 |
+| 2003-02-11 |           1 |        1 |
+| 2003-02-17 |           1 |        1 |
+| 2003-02-24 |           1 |        1 |
+| 2003-03-03 |           1 |        1 |
+| 2003-03-10 |           1 |        1 |
+| 2003-03-18 |           1 |        1 |
+| 2003-03-24 |           1 |        1 |
+| 2003-03-25 |           1 |        1 |
+| 2003-03-26 |           1 |        1 |
+| 2003-04-01 |           1 |        1 |
+| 2003-04-04 |           1 |        1 |
+| 2003-04-11 |           1 |        1 |
+| 2003-04-16 |           1 |        1 |
+| 2003-04-21 |           1 |        1 |
+| 2003-04-28 |           1 |        1 |
+| 2003-04-29 |           1 |        1 |
+| 2003-05-07 |           1 |        1 |
+265 rows in set (0.00 sec)
+
+
+## 인당 매출액 (연도별)
+
+- 연도별 매출액
+SELECT
+substr(A.orderdate, 1,4) YY,
+COUNT(DISTINCT customernumber) N_PURCHASER,
+SUM(priceeach*quantityordered) AS SALES
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.ordernumber =B.ordernumber
+GROUP BY 1;
+
++------+-------------+------------+
+| YY   | N_PURCHASER | SALES      |
++------+-------------+------------+
+| 2003 |          74 | 3317348.39 |
+| 2004 |          89 | 4515905.51 |
+| 2005 |          44 | 1770936.71 |
++------+-------------+------------+
+
+- 인당 매출액
+SELECT
+substr(A.orderdate, 1,4) YY,
+COUNT(DISTINCT A.customernumber) N_PURCHASER,
+SUM(priceeach*quantityordered) AS SALES,
+SUM(priceeach*quantityordered) / COUNT(DISTINCT A.customernumber) AMV
+FROM classicmodels.orders A
+LEFT JOIN orderdetails B
+ON A.ordernumber =B.ordernumber
+GROUP BY 1;
+
++------+-------------+------------+--------------+
+| YY   | N_PURCHASER | SALES      | AMV          |
++------+-------------+------------+--------------+
+| 2003 |          74 | 3317348.39 | 44829.032297 |
+| 2004 |          89 | 4515905.51 | 50740.511348 |
+| 2005 |          44 | 1770936.71 | 40248.561591 |
++------+-------------+------------+--------------+
+
+5장 상품 리뷰 데이터를 이용한 리포트 작성 Page125 
+https://www.kaggle.com/nicapotato/womens-ecommerce-clothing-reviews
+
+<DB 만들기>
+
+CREATE database ch5_clothing;
+ Query OK, 1 row affected (0.01 sec)
+use ch5_clothing;
+ Database changed
+
+<DB 긁어오기>
+
+load data infile 'c:/mysql/Womens Clothing E-Commerce Reviews.csv'  
+into table dataset2                    
+fields terminated by ','               
+enclosed by  '"'                        
+lines terminated by '\n'              
+ignore 1 rows;
+
+Query OK, 23486 rows affected (0.40 sec)
+Records: 23486  Deleted: 0  Skipped: 0  Warnings: 0   
+
+<DB 넣을 빈 TABLE 만들기> !! 빈칸있으면 안됨 "_" 처리
+
+CREATE TABLE dataset2(
+SN INTEGER,
+Clothing_ID INTEGER,
+Age INTEGER,
+Title VARCHAR(55),
+Review_Text VARCHAR(510),	
+Rating INTEGER,
+Recommended_IND INTEGER,
+Positive_Feedback_Count INTEGER,	
+Division_Name VARCHAR(20),	
+Department_Name VARCHAR(10),	
+Class_Name VARCHAR(20)
+);
+
++------------------------+
+| Tables_in_ch5_clothing |
++------------------------+
+| dataset2               |
++------------------------+
+
+## Division별 평점 분포 계산
+
+1) division별 평균 평점 계산
+-a) division name별 평균 평점
+
+SELECT division_name, AVG(rating) AVG_RATE
+FROM dataset2
+GROUP BY 1
+ORDER BY 2 DESC;
+
++----------------+----------+
+| division_name  | AVG_RATE |
++----------------+----------+
+|                |   5.0000 |
+| Initmates      |   4.2863 |
+| General Petite |   4.2111 |
+| General        |   4.1766 |
++----------------+----------+
+
+-b) department별 평균 평점
+
+SELECT department_name, AVG(rating) AVG_RATE
+FROM dataset2
+GROUP BY 1
+ORDER BY 2 DESC;
+
++-----------------+----------+
+| department_name | AVG_RATE |
++-----------------+----------+
+|                 |   5.0000 |
+| Bottoms         |   4.2888 |
+| Intimate        |   4.2801 |
+| Jackets         |   4.2645 |
+| Tops            |   4.1722 |
+| Dresses         |   4.1508 |
+| Trend           |   3.8151 |
++-----------------+----------+
+
+-c) department_name이 Trend이면서 평점 3점 이하 리뷰
+
+SELECT SUBSTR(Review_Text, 1, 100)
+FROM dataset2
+WHERE department_name = 'Trend' AND rating <=3;
+
+2) case when 원하는 그룹 생성 가능 
+
+SELECT CASE WHEN age BETWEEN 0 AND 9 THEN '0-9'
+WHEN age BETWEEN 10 AND 19 THEN '10-19'
+WHEN age BETWEEN 20 AND 29 THEN '20-29'
+WHEN age BETWEEN 30 AND 39 THEN '30-39'
+WHEN age BETWEEN 40 AND 49 THEN '40-49'
+WHEN age BETWEEN 50 AND 59 THEN '50-59'
+WHEN age BETWEEN 60 AND 69 THEN '60-69'
+WHEN age BETWEEN 70 AND 79 THEN '70-79'
+WHEN age BETWEEN 80 AND 89 THEN '80-89'
+WHEN age BETWEEN 90 AND 99 THEN '90-99' END AgeBand,
+AGE
+FROM dataset2
+WHERE department_name = 'Trend'
+AND rating <= 3
+
++---------+------+
+| AgeBand | AGE  |
++---------+------+
+| 60-69   |   66 |
+| 30-39   |   36 |
+| 60-69   |   66 |
+| 40-49   |   43 |
+| 30-39   |   34 |
+| 40-49   |   41 |
+| 30-39   |   37 |
+| 50-59   |   53 |
+| 30-39   |   36 |
+| 30-39   |   39 |
+| 50-59   |   51 |
+| 50-59   |   56 |
+| 40-49   |   46 |
+| 30-39   |   35 |
+| 20-29   |   25 |
+| 20-29   |   20 |
+| 30-39   |   37 |
+| 60-69   |   63 |
+| 40-49   |   42 |
+41 rows in set
+
+3) floor 소수점 버림
+
+SELECT FLOOR(Age/10)*10 AgeBand, Age
+FROM dataset2
+WHERE department_name = 'trend'
+AND rating <= 3
+ORDER BY 1;
++---------+------+
+| AgeBand | Age  |
++---------+------+
+|      20 |   20 |
+|      20 |   25 |
+|      20 |   25 |
+|      20 |   20 |
+|      20 |   25 |
+|      30 |   36 |
+|      30 |   34 |
+|      30 |   37 |
+|      30 |   36 |
+|      30 |   39 |
+|      30 |   35 |
+|      30 |   37 |
+|      30 |   34 |
+41 rows in set
+
+-a)Trend의 평점 3점 이하 리뷰의 연령 분포
+
+SELECT FLOOR(Age/10)*10 AgeBand, COUNT(*) CNT
+FROM dataset2
+WHERE department_name = 'trend' AND rating <=3
+GROUP BY 1
+ORDER BY 2 desc
+;
+
++---------+-----+
+| AgeBand | CNT |
++---------+-----+
+|      40 |  13 |
+|      50 |  10 |
+|      30 |   8 |
+|      20 |   5 |
+|      60 |   4 |
+|      70 |   1 |
++---------+-----+ 
+
+= 40대가 가장 많더라 하지만 40대가 제일 많이 리뷰를 남겼을지도?
+
+-b) 'Trand' 연령별 리뷰수
+
+SELECT FLOOR(Age/10)*10 AgeBand, COUNT(*) CNT
+FROM dataset2
+WHERE department_name = 'Trend'
+GROUP BY 1
+ORDER BY 2 DESC; 
+
++---------+-----+
+| AgeBand | CNT |
++---------+-----+
+|      30 |  36 |
+|      40 |  31 |
+|      50 |  25 |
+|      20 |  14 |
+|      60 |  11 |
+|      80 |   1 |
+|      70 |   1 |
++---------+-----+

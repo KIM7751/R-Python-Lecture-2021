@@ -1,0 +1,58 @@
+<CSV 파일 mySQL로 읽기>
+
+1. CSV 파일 만들기
+
+2. mysql -> my.ini "secure-file-priv="C:/mysql" 추가하기
+
+3. 서비스 -> mysql 중지 -> 시작
+
+4. 관리자 권한 cmd mysql 상에 "SELECT @@GlOBAL.secure_file_priv;" 입력
+
++---------------------------+
+| @@GlOBAL.secure_file_priv |
++---------------------------+
+| C:\mysql\                 |
++---------------------------+
+
+#### 공공데이터의 경우 csv파일을 메모장으로 다른이름으로 저장, utf 파일로 바꿔주는 절차를 진행해야함 ####
+
+5. 새로운 csv 파일을 넣기 위해서는 DB상에 새로운 "빈 테이블"이 필요함
+
+ CREATE TABLE csv_test(
+ fam_name VARCHAR(2),
+ name VARCHAR(4),
+ grade INTEGER);
+
+CREATE TABLE Public_accident(
+Att_Age VARCHAR(20),
+Month INTEGER,
+Accident INTEGER,
+Num_dead INTEGER,
+Num_seriously INTEGER,
+Num_slightly INTEGER,
+Num_injured INTEGER
+);
+
+
+6. 읽고 붙이기
+
+load data infile 'c:/mysql/test.csv'  # 붙일 csv 파일 위치
+into table csv_test                    # table csv_test에 넣을거야
+fields terminated by ','               # 필드는 ' , ' 를 기준으로 끝이나
+enclosed by  '"'                        # 넣는 입력 값의 끝은 ' " ' 야  
+lines terminated by '\n'              # 행의 종료는 열 바꿈이야
+ignore 1 rows;                          # 첫 번째 줄은 무시한다.
+
+LOAD DATA INFILE 'c:/mysql/public_accident.csv'   # 붙일 csv 파일 위치
+INTO table Public_accident                              # table Public_accident에 넣을거야
+fields terminated by ','                                   # 필드(Col)는 ' , ' 를 기준으로 끝이나
+enclosed by  ','                                            # 넣는 입력 값의 끝은 ' , ' 야  
+lines terminated by '\n'                                 # 행의 종료는 열 바꿈이야
+ignore 1 rows;                                             # 첫 번째 줄은 무시한다.
+
+
+## 나이대별 교통사고 횟수 및 사망자 수
+SELECT Att_Age "가해자 나이", SUM(Accident) "사고 횟수" , SUM(Num_dead) "사망자 수"
+FROM Public_Accident
+GROUP BY Att_Age
+ORDER BY SUM(Accident) desc;

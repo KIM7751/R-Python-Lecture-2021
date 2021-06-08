@@ -1,0 +1,64 @@
+<백업>
+
+1. 관리자 권한으로 cmd 실행
+
+2. mysql -uroot -p 로그인
+
+show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| mytest_1           |
+| performance_schema |
+| sys                |
++--------------------+
+데이터 베이스 단위로 백업 진행
+
+
+3. 관리자 권한으로 cmd 하나 더 실행
+
+4. C:\WINDOWS\system32>mysqldump -uroot -p7751 mytest_1 > c:\dumptest_20210608.db
+
+- mysqldump는 bin 파일에 들어가면 평소 실행하는 "mysql.exe", 백업을 담당해줄  "mysqldump.exe"를 확인할 수 있음. 
+- C 드라이브에 dumptest_20210608.db 이 생긴 것 확인 가능
+- 메모자을 열어 넣어보면 그 동안 타이핑했던 요소들을 확인 가능
+
+<복원>
+
+1. mysql에서 복원할 빈 DB를 만듦
+
+mysql> CREATE database mytest_1_copy;
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| mytest_1           |
+| mytest_1_copy      |
+| performance_schema |
+| sys                |
++--------------------+
+mysql> use mytest_1_copy;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+2. 다른 cmd에 커맨드 입력
+
+C:\WINDOWS\system32>mysql -uroot -p mytest_1_copy < c:\dumptest_20210608.db
+Enter password: ****
+
+3. mysql에서 확인해보기
+
+mysql> show tables;
++-------------------------+
+| Tables_in_mytest_1_copy |
++-------------------------+
+| book                    |
+| customer                |
+| imported_book           |
+| orders                  |
++-------------------------+
