@@ -1,0 +1,31 @@
+8장 타이타닉 데이터
+
+load data infile 'c:/mysql/full.csv'  
+into table titanic_full                   
+fields terminated by ','              
+enclosed by  '"'                       
+lines terminated by '\n'              
+ignore 1 rows;    
+
+CREATE TABLE titanic_full(
+PassengerId INTEGER,
+Survived VARCHAR(10),
+Pclass INTEGER,	
+Name VARCHAR(85),	
+Sex VARCHAR(10),	
+Age VARCHAR(10),	
+SibSp INTEGER,	
+Parch INTEGER,	
+Ticket VARCHAR(20),	
+Fare VARCHAR(20),	
+Cabin VARCHAR(20),	
+Embarked VARCHAR(5),	
+Hometown VARCHAR(50),	
+Boarded VARCHAR(30),
+Destination VARCHAR(40),
+Lifeboat VARCHAR(50),
+Body VARCHAR(15)
+);
+
+drop table titanic_full;
+
