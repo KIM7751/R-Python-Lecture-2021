@@ -83,7 +83,16 @@ SELECT SUM(방문자_수) "총 방문자 수" FROM project_csv;
 |     19180774 |
 +--------------+
 
-1-2) TOP 4 전체 방문자 수 대비 비율
+1-2) TOP 5 전체 방문자 수 대비 비율
+
+
+SELECT 국가, SUM(방문자_수) / (SELECT SUM(방문자_수) FROM project_csv)*100 '나라별 비율'
+FROM project_csv
+WHERE 국가 IN ('china','Japan','Taiwan','USA','Hong Kong')
+GROUP BY 1
+;
+
+
 
 SELECT SUM(방문자_수)  중국인 
 FROM project_csv
@@ -96,11 +105,10 @@ WHERE 국가 = 'china'
 | 6236504 |
 +---------+
 
-
-SELECT SUM(방문자_수) / (SELECT SUM(방문자_수) FROM project_csv)*100 '중국인 비율'
+SELECT SUM(방문자_수) / (SELECT SUM(방문자_수) FROM project_csv)*100 '일본인 비율'
 FROM project_csv
 WHERE 국가 = 'china'
-;
+
 
 +-------------+
 | 중국인 비율 |
@@ -175,6 +183,17 @@ WHERE 국가 = 'USA'
 
 2) TOP4 방문 목적 ------------------------------------------------- 비율이 상당수 관광에 치중되어 있어 의미 있는 데이터X
 
+SELECT 국가, 
+SUM(관광)/SUM(방문자_수)*100 관광,
+SUM(사업)/SUM(방문자_수)*100 사업,
+SUM(공무)/SUM(방문자_수)*100 공무,
+SUM(유학)/SUM(방문자_수)*100 유학
+FROM project_csv
+WHERE 국가 IN ('china','Japan','Taiwan','USA','Hong Kong')
+GROUP BY 1
+ORDER BY 2 DESC, 3 DESC, 4 DESC, 5 DESC
+;
+
 중국
 
 SELECT 국가, 
@@ -248,10 +267,18 @@ ORDER BY 2 DESC;
 | Hong Kong       |  766312 |
 
 
+SELECT 국가, SUM(관광)/(SELECT SUM(관광) FROM project_csv)*100 관광비율
+FROM project_csv
+WHERE 국가 IN ('China', 'Japan', 'Taiwan', 'USA', 'Hong Kong')
+GROUP BY 1
+ORDER BY 2 DESC
+;
+
 SELECT 국가, SUM(관광)/(SELECT SUM(관광) FROM project_csv)*100 중국관광비율
 FROM project_csv
 WHERE 국가 = 'china'
 ;
+
 +-------+--------------+
 | 국가  | 중국관광비율 |
 +-------+--------------+
@@ -283,6 +310,12 @@ WHERE 국가 = 'Taiwan'
 
 4) 사업 목적 TOP 5 / 1. 중국 2. 인도 3. 일본 4. 베트남 5. 아프리카 대륙
 
+SELECT 국가, SUM(사업)/(SELECT SUM(사업) FROM project_csv)*100 사업비율
+FROM project_csv
+WHERE 국가 IN ('China', 'India', 'Japan', 'Vietnam', 'Africa others')
+GROUP BY 1
+ORDER BY 2 DESC
+;
 
 SELECT 국가, SUM(사업) 사업
 FROM project_csv
@@ -344,6 +377,13 @@ WHERE 국가 = 'Vietnam'
 +---------+----------------+
 
 4) 공무 목적 TOP 5 (과반수 이상) / 1. 미국 2. 중국 3. 몽골 4. 베트남 5. 태국 
+
+SELECT 국가, SUM(공무)/(SELECT SUM(공무) FROM project_csv)*100 공무비율
+FROM project_csv
+WHERE 국가 IN ('USA', 'China', 'Vietnam', 'Mongolia', 'Thailand')
+GROUP BY 1
+ORDER BY 2 DESC
+;
 
 SELECT 국가, SUM(공무) 공무
 FROM project_csv
