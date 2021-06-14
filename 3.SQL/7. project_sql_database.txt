@@ -424,6 +424,14 @@ WHERE 국가 = 'china'
 
 5) 유학 목적 TOP 5 (과반수 이상) / 1. 중국 2. 베트남 3. 일본 4. 몽골 5.우즈벡
 
+
+SELECT 국가, SUM(유학)/(SELECT SUM(유학) FROM project_csv)*100 유학비율
+FROM project_csv
+WHERE 국가 IN ('China', 'Vietnam', 'Japan', 'Mongolia', 'Uzbekistan')
+GROUP BY 1
+ORDER BY 2 DESC
+;
+
 SELECT 국가, SUM(유학) 유학
 FROM project_csv
 GROUP BY 1
