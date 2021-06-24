@@ -19,7 +19,6 @@ create table project_csv(
 60대_이상 INTEGER
 );
 
-
 load data infile 'c:/mysql/Enter_korea_full.csv'
 into table project_csv
 fields terminated by ','
